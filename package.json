@@ -1,0 +1,32 @@
+{
+  "name": "pf_almacen",
+  "version": "1.0.0",
+  "description": "API  para entradas y salidas de almacén",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node backend/server",
+    "server": "nodemon backend/server",
+    "client": "npm start --prefix frontend",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xiillii/PF_Almacen.git"
+  },
+  "author": "Jose Alonso",
+  "license": "AGPL-3.0-only",
+  "bugs": {
+    "url": "https://github.com/xiillii/PF_Almacen/issues"
+  },
+  "homepage": "https://github.com/xiillii/PF_Almacen#readme",
+  "dependencies": {
+    "colors": "^1.4.0",
+    "dotenv": "^16.0.0",
+    "express": "^4.17.3"
+  },
+  "devDependencies": {
+    "concurrently": "^7.0.0",
+    "nodemon": "^2.0.15"
+  }
+}
