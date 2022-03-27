@@ -29,7 +29,7 @@ const authUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
 
   // busquemos el usuario por email
-  const user = await User.findOne({ email });
+  const user = await User.findOne({ email: email, isDeleted: false });
 
   if (user && (await user.matchPassword(password))) {
     res.json({
