@@ -43,7 +43,7 @@ API para entradas y salidas de productos, de un almacén
 
 ---
 
-![Casos de Uso de Usuarios](https://user-images.githubusercontent.com/24198508/160273231-25dfdb5c-0a06-4c12-8fca-4819d70ae253.png)
+![Casos de Uso de Usuarios](https://user-images.githubusercontent.com/24198508/160295235-67b0bf0b-901e-424e-9e30-2694103d4b89.png)
 
 ### RF01. Listado de productos
 
