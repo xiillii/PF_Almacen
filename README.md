@@ -12,6 +12,7 @@ API para entradas y salidas de productos, de un almacén
 - RF04. Borrado lógico de usuarios
 - RF05. Autenticación de usuarios.
 - RF06. Proteger métodos API de usuarios
+- RF07. Obtener el registro de un usuario
 
 ### Almacenes
 
@@ -43,9 +44,6 @@ API para entradas y salidas de productos, de un almacén
 ---
 
 ![Casos de Uso de Usuarios](https://user-images.githubusercontent.com/24198508/160273231-25dfdb5c-0a06-4c12-8fca-4819d70ae253.png)
-
-
-
 
 ### RF01. Listado de productos
 
@@ -105,6 +103,12 @@ API para entradas y salidas de productos, de un almacén
   - Listado de usuarios
   - Modificación de usuarios
   - Borrado lógico de usuarios
+
+### RF07. Obtener el registro un usuario
+
+- Se debe obtener por ID la información de un usuario
+- No debe de contener la contraseña
+- Solo busca entre los usuarios activos
 
 ## Requerimientos no funcionales
 
