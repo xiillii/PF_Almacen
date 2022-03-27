@@ -42,6 +42,11 @@ API para entradas y salidas de productos, de un almacén
 
 ---
 
+![Casos de Uso de Usuarios](https://user-images.githubusercontent.com/24198508/160273231-25dfdb5c-0a06-4c12-8fca-4819d70ae253.png)
+
+
+
+
 ### RF01. Listado de productos
 
 - Se debe construir el modelo de la base de datos para la entidad.
