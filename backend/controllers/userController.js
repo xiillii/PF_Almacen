@@ -141,4 +141,26 @@ const deleteUser = asyncHandler(async (req, res) => {
   res.sendStatus(200);
 });
 
-export { getUsers, authUser, registerUser, updateUser, deleteUser };
+// @desc    obtiene un usuario por id
+// @route   GET /api/users/:id
+// @access  private
+const getUser = asyncHandler(async (req, res) => {
+  const id = req.params.id;
+
+  // Verificamos si existe el usuario
+  const user = await User.findOne({ _id: id, isDeleted: false });
+
+  if (user) {
+    res.json({
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+      isAdmin: user.isAdmin,
+    });
+  } else {
+    res.status(404);
+    throw new Error('User not found');
+  }
+});
+
+export { getUsers, authUser, registerUser, updateUser, deleteUser, getUser };
