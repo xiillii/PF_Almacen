@@ -44,6 +44,16 @@ userSchema.methods.matchPassword = async function (enteredPassword) {
 
 userSchema.index({ email: 1, isDeleted: 1 }, { unique: true });
 
+// antes de guardar, cifraremos la contraseña
+userSchema.pre('save', async function (next) {
+  if (!this.isModified('password')) {
+    next();
+  }
+
+  const salt = await bcrypt.genSalt(Number(process.env.PASSWORD_HASH_LENGTH));
+  this.password = await bcrypt.hash(this.password, salt);
+});
+
 const User = mongoose.model('User', userSchema);
 
 export default User;
