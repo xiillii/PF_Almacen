@@ -9,7 +9,7 @@ import generateToken from '../utils/generateToken.js';
 const getUsers = asyncHandler(async (req, res) => {
   const { offset = 1, limit = DEFAULT_LIMIT_VALUE } = req.query;
 
-  const totalRecords = await User.countDocuments();
+  const totalRecords = await User.countDocuments({ isDeleted: false });
 
   const users = await User.find({ isDeleted: false })
     .select('-password -isDeleted')
