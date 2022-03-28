@@ -79,4 +79,37 @@ const registerUser = asyncHandler(async (req, res) => {
   }
 });
 
-export { getUsers, authUser, registerUser };
+// @desc    Actualiza un usuario por id
+// @route   PUT /api/users/:id
+// @access  private
+const updateUser = asyncHandler(async (req, res) => {
+  const id = req.params.id;
+  const { name, email, password } = req.body;
+
+  // Verificamos si existe el usuario
+  const user = await User.findById({ _id: id, isDeleted: false });
+
+  if (user) {
+    user.name = name || user.name;
+    user.email = email || user.email;
+    user.user = req.user;
+    if (password) {
+      user.password = password;
+    }
+
+    const updatedUser = await user.save();
+
+    res.json({
+      _id: updatedUser._id,
+      name: updatedUser.name,
+      email: updatedUser.email,
+      isAdmin: updatedUser.isAdmin,
+      token: generateToken(updatedUser._id),
+    });
+  } else {
+    res.status(404);
+    throw new Error('User not found');
+  }
+});
+
+export { getUsers, authUser, registerUser, updateUser };
