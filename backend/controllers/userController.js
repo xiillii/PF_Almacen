@@ -87,7 +87,7 @@ const updateUser = asyncHandler(async (req, res) => {
   const { name, email, password } = req.body;
 
   // Verificamos si existe el usuario
-  const user = await User.findById({ _id: id, isDeleted: false });
+  const user = await User.findOne({ _id: id, isDeleted: false });
 
   if (user) {
     user.name = name || user.name;
@@ -119,7 +119,7 @@ const deleteUser = asyncHandler(async (req, res) => {
   const id = req.params.id;
 
   // Verificamos si existe el usuario
-  const user = await User.findById({ _id: id, isDeleted: false });
+  const user = await User.findOne({ _id: id, isDeleted: false });
 
   if (user) {
     user.isDeleted = true;
