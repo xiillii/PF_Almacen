@@ -125,7 +125,14 @@ const deleteUser = asyncHandler(async (req, res) => {
     user.isDeleted = true;
     user.user = req.user;
 
+    // para evitar el BUG de que
+    // entre los usuarios borrados haya varios emails iguales,
+    // ya que el esquema dice que hay un índice único en: email, isDeleted
+    // entonces al email le agregaremos el id al email, con el prefijo, _DELETED_
+    user.email = `${user.email}_DELETED_${user._id}`;
+
     const updatedUser = await user.save();
+
     if (!updateUser) {
       res.status(400);
       throw new Error('User not deleted');
