@@ -10,7 +10,7 @@ const userSchema = mongoose.Schema(
     email: {
       type: String,
       required: true,
-      unique: true,
+      index: true,
     },
     password: {
       type: String,
@@ -25,6 +25,7 @@ const userSchema = mongoose.Schema(
       type: Boolean,
       required: true,
       default: false,
+      index: true,
     },
     idUsuer: {
       type: mongoose.Schema.Types.ObjectId,
@@ -40,6 +41,8 @@ const userSchema = mongoose.Schema(
 userSchema.methods.matchPassword = async function (enteredPassword) {
   return await bcrypt.compare(enteredPassword, this.password);
 };
+
+userSchema.index({ email: 1, isDeleted: 1 }, { unique: true });
 
 const User = mongoose.model('User', userSchema);
 
