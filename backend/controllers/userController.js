@@ -112,4 +112,26 @@ const updateUser = asyncHandler(async (req, res) => {
   }
 });
 
-export { getUsers, authUser, registerUser, updateUser };
+// @desc    Borra lógicamdente un usuario por id
+// @route   DELETE /api/users/:id
+// @access  private
+const deleteUser = asyncHandler(async (req, res) => {
+  const id = req.params.id;
+
+  // Verificamos si existe el usuario
+  const user = await User.findById({ _id: id, isDeleted: false });
+
+  if (user) {
+    user.isDeleted = true;
+    user.user = req.user;
+
+    const updatedUser = await user.save();
+    if (!updateUser) {
+      res.status(400);
+      throw new Error('User not deleted');
+    }
+  }
+  res.sendStatus(200);
+});
+
+export { getUsers, authUser, registerUser, updateUser, deleteUser };
