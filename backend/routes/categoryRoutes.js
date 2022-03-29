@@ -5,6 +5,7 @@ import {
   registerCategory,
   updateCategory,
   deleteCategory,
+  getCategory,
 } from '../controllers/categoryController.js';
 import { protect } from '../middleware/authMiddleware.js';
 import {
@@ -22,6 +23,7 @@ router
 router
   .route('/:id')
   .put(protect, categoryValidationRules(), categoryValidate, updateCategory)
-  .delete(protect, deleteCategory);
+  .delete(protect, deleteCategory)
+  .get(protect, getCategory);
 
 export default router;

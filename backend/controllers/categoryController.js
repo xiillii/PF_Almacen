@@ -110,4 +110,33 @@ const deleteCategory = asyncHandler(async (req, res) => {
   res.sendStatus(200);
 });
 
-export { getCategories, registerCategory, updateCategory, deleteCategory };
+// @desc    Obtiene una  categoría
+// @route   GET /api/categories/:id
+// @access  private
+const getCategory = asyncHandler(async (req, res) => {
+  const id = req.params.id;
+
+  // verificamos que no exista el código entre los activos
+  const category = await Category.findOne({
+    _id: id,
+    isDeleted: false,
+  });
+  if (!category) {
+    res.status(400);
+    throw new Error('Category not found');
+  }
+
+  res.json({
+    _id: category._id,
+    code: category.code,
+    description: category.description,
+  });
+});
+
+export {
+  getCategories,
+  registerCategory,
+  updateCategory,
+  deleteCategory,
+  getCategory,
+};
