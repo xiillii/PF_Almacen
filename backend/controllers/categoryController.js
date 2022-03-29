@@ -1,4 +1,5 @@
 import asyncHandler from 'express-async-handler';
+import { validationResult } from 'express-validator';
 import Category from '../models/categoryModel.js';
 import { DEFAULT_LIMIT_VALUE } from '../constants/backendConstans.js';
 
@@ -20,13 +21,17 @@ const getCategories = asyncHandler(async (req, res) => {
 });
 
 const registerCategory = asyncHandler(async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(422).jsonp({ errors: errors.array() });
+  }
   let { code, description } = req.body;
 
-  code = code.trim();
+  // code = code.trim();
 
-  if (description) {
-    description = description.trim();
-  }
+  // if (description) {
+  //   description = description.trim();
+  // }
 
   // verificamos que no exista el código entre los activos
   const categoryExists = await Category.findOne({
