@@ -19,4 +19,40 @@ const getCategories = asyncHandler(async (req, res) => {
   res.status(200).json(categories);
 });
 
-export { getCategories };
+const registerCategory = asyncHandler(async (req, res) => {
+  let { code, description } = req.body;
+
+  code = code.trim();
+
+  if (description) {
+    description = description.trim();
+  }
+
+  // verificamos que no exista el código entre los activos
+  const categoryExists = await Category.findOne({
+    code: code,
+    isDeleted: false,
+  });
+  if (categoryExists) {
+    res.status(400);
+    throw new Error('Category already exists');
+  }
+
+  const category = await Category.create({
+    code,
+    description,
+  });
+
+  if (category) {
+    res.status(201).json({
+      _id: category._id,
+      code: category.code,
+      description: category.description,
+    });
+  } else {
+    res.status(400);
+    throw new Error('Invalid category data');
+  }
+});
+
+export { getCategories, registerCategory };

@@ -1,10 +1,13 @@
 import express from 'express';
 
-import { getCategories } from '../controllers/categoryController.js';
+import {
+  getCategories,
+  registerCategory,
+} from '../controllers/categoryController.js';
 import { protect } from '../middleware/authMiddleware.js';
 
 const router = express.Router();
 
-router.route('/').get(protect, getCategories);
+router.route('/').get(protect, getCategories).post(protect, registerCategory);
 
 export default router;
