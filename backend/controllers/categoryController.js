@@ -82,4 +82,32 @@ const updateCategory = asyncHandler(async (req, res) => {
   });
 });
 
-export { getCategories, registerCategory, updateCategory };
+// @desc    Borra una categoría
+// @route   DELETE /api/categories/:id
+// @access  private
+const deleteCategory = asyncHandler(async (req, res) => {
+  const id = req.params.id;
+
+  // verificamos que no exista el código entre los activos
+  const category = await Category.findOne({
+    _id: id,
+    isDeleted: false,
+  });
+  if (!category) {
+    res.status(400);
+    throw new Error('Category not found');
+  }
+  category.code = `${category.code}_DELETED_${category._id}`;
+  category.user = req.user;
+  category.isDeleted = true;
+
+  const updatedCategory = await category.save();
+
+  if (!updatedCategory) {
+    res.status(400);
+    throw new Error('Category not deleted');
+  }
+  res.sendStatus(200);
+});
+
+export { getCategories, registerCategory, updateCategory, deleteCategory };
