@@ -1,5 +1,4 @@
 import express from 'express';
-import { check } from 'express-validator';
 import {
   authUser,
   getUsers,
@@ -23,6 +22,6 @@ router
   .route('/:id')
   .delete(protect, deleteUser)
   .get(protect, getUser)
-  .put(userValidationRules(), validate, updateUser);
+  .put(protect, userValidationRules(), validate, updateUser);
 
 export default router;
