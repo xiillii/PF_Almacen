@@ -1,5 +1,4 @@
 import asyncHandler from 'express-async-handler';
-import { validationResult } from 'express-validator';
 import Category from '../models/categoryModel.js';
 import { DEFAULT_LIMIT_VALUE } from '../constants/backendConstans.js';
 
@@ -20,18 +19,11 @@ const getCategories = asyncHandler(async (req, res) => {
   res.status(200).json(categories);
 });
 
+// @desc    Agrega una nueva categoría
+// @route   POST /api/categories
+// @access  private
 const registerCategory = asyncHandler(async (req, res) => {
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    return res.status(422).jsonp({ errors: errors.array() });
-  }
   let { code, description } = req.body;
-
-  // code = code.trim();
-
-  // if (description) {
-  //   description = description.trim();
-  // }
 
   // verificamos que no exista el código entre los activos
   const categoryExists = await Category.findOne({
@@ -44,8 +36,9 @@ const registerCategory = asyncHandler(async (req, res) => {
   }
 
   const category = await Category.create({
-    code,
-    description,
+    code: code,
+    description: description,
+    user: req.user,
   });
 
   if (category) {
@@ -60,4 +53,33 @@ const registerCategory = asyncHandler(async (req, res) => {
   }
 });
 
-export { getCategories, registerCategory };
+// @desc    Modifica una nueva categoría
+// @route   POST /api/categories/:id
+// @access  private
+const updateCategory = asyncHandler(async (req, res) => {
+  const id = req.params.id;
+  const { code, description } = req.body;
+
+  // verificamos que no exista el código entre los activos
+  const category = await Category.findOne({
+    _id: id,
+    isDeleted: false,
+  });
+  if (!category) {
+    res.status(400);
+    throw new Error('Category not found');
+  }
+  category.code = code;
+  category.description = description;
+  category.user = req.user;
+
+  const updatedCategory = await category.save();
+
+  res.json({
+    _id: updatedCategory._id,
+    code: updatedCategory.code,
+    description: updatedCategory.description,
+  });
+});
+
+export { getCategories, registerCategory, updateCategory };

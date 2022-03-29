@@ -1,5 +1,4 @@
 import asyncHandler from 'express-async-handler';
-import { validationResult } from 'express-validator';
 import User from '../models/userModel.js';
 import { DEFAULT_LIMIT_VALUE } from '../constants/backendConstans.js';
 import generateToken from '../utils/generateToken.js';
@@ -50,11 +49,6 @@ const authUser = asyncHandler(async (req, res) => {
 // @route   POST /api/users
 // @access  public
 const registerUser = asyncHandler(async (req, res) => {
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    return res.status(422).jsonp({ errors: errors.array() });
-  }
-
   const { name, email, password } = req.body;
 
   // verificamos que no intentemos agregar un usuario con el mismo email
