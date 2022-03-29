@@ -110,6 +110,53 @@ API para entradas y salidas de productos, de un almacén
 - No debe de contener la contraseña
 - Solo busca entre los usuarios activos
 
+---
+
+### RF08. Listado de Categorías
+
+- Se debe generar un método para generar un listado de Categorías activas
+- El modelo debe tener la siguiente estructura
+  - Código.
+    - Requerido
+    - Único entre los activos
+    - Texto
+  - Nombre
+    - Requerido
+    - Texto
+    - Índice
+  - Descripción.
+    - Cadena de texto
+  - Borrado
+    - Booleano
+    - Por default es falso
+    - Requerido
+- Debe hacerse un índice único entre el código y el estatus de borrado. Aplicar lo mismo que se realizó con Usuarios, para cuando el mismo código haya sido borrado.
+
+### RF09. Registro de una categoría
+
+- Crear un método para agregar una nueva categoría
+- El código debe ser único entre los registros activos
+
+### RF10. Modificación de categorías
+
+- Generar un método para modificar una categoría
+- Solo puede modifica una categoría activa
+- El código es único
+
+### RF11. Borrado lógico de categorías
+
+- Generar un método para borrar lógicamente una categoría
+- Se asegurar que se logre borrar, aunque el código ya exista entre los borrados
+
+### RF12. Obtener una categoría
+
+- Generar un método para obtener una categoría
+- Se debe buscar entre las categorías activas
+
+### RF13. Proteger los métodos de categorías
+
+- Asegurar que todos los métodos de categorías estén protegidos por JWT
+
 ## Requerimientos no funcionales
 
 - Se debe usar inglés para
