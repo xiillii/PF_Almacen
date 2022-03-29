@@ -13,15 +13,19 @@ API para entradas y salidas de productos, de un almacén
 - RF05. Autenticación de usuarios.
 - RF06. Proteger métodos API de usuarios
 - RF07. Obtener el registro de un usuario
+- RF15. Crear pruebas de integración
 
 ### Almacenes
 
 #### Categorías
 
-- Listado de categorías
-- Registro de categorías
-- Modificación de categorías
-- Borrado lógico de categorias
+- RF08. Listado de Categorías
+- RF09. Registro de Categorías
+- RF10. Modificación de Categorías
+- RF11. Borrado lógico de Categorías
+- RF12. Obtener una categoría
+- RF13. Proteger los métodos de Categorías
+- RF14. Crear pruebas de integración
 
 #### Productos
 
@@ -110,6 +114,10 @@ API para entradas y salidas de productos, de un almacén
 - No debe de contener la contraseña
 - Solo busca entre los usuarios activos
 
+### RF15. Crear pruebas de integracion
+
+- Se deben crear pruebas de integración de las operaciones de usuarios
+
 ---
 
 ### RF08. Listado de Categorías
@@ -156,6 +164,10 @@ API para entradas y salidas de productos, de un almacén
 ### RF13. Proteger los métodos de categorías
 
 - Asegurar que todos los métodos de categorías estén protegidos por JWT
+
+### RF14. Crear pruebas de integracion
+
+- Se deben crear pruebas de integración de las operaciones de categorías
 
 ## Requerimientos no funcionales
 
