@@ -29,21 +29,27 @@ API para entradas y salidas de productos, de un almacén
 
 #### Productos
 
-- Listado de productos
-- Registro de productos
-- Modificación de productos
-- Borrado lógico de productos
+- RF16. Listado de productos
+- RF17. Registro de Productos
+- RF18. Modificación de Productos
+- RF19. Borrado lógico de Productos
+- RF20. Obtener un registro de productos
+- RF21. Proteger los métodos de productos
+- RF22. Crear pruebas de integración
 
 #### Almacenes
 
-- Listado de almacenes
-- Registro de almacenes
-- Modificación de almacenes
-- Borrado lógico de almacenes
-- Entrada de productos a almacén. Método PEPS
-- Salida de productos de almacén. Método PEPS
-- Traspaso de productos entre almacenes
-- Costeo de inventarios. Método PEPS.
+- RF23. Listado de Almacenes
+- RF24. Registro de Almacenes
+- RF25. Modificación de Almacenes
+- RF26. Borrado lógico de Almacenes
+- RF27. Obtener un almacén
+- RF28. Entrada de Producto a Almacén. Método PEPS
+- RF29. Salida de Producto a Almacén. Método PEPS
+- RF30. Traspaso de Producto a Almacén
+- RF31. Proteger los métodos de almacenes
+- RF32. Crear pruebas de integración
+- RF33. Costeo de inventarios PEPS
 
 ---
 
