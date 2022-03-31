@@ -23,7 +23,6 @@ describe('User tests', () => {
   let token;
 
   beforeAll(async () => {
-    console.log('beforeAll User');
     await mongoose.connect(process.env.MONGO_JEST_USERS_URI, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
@@ -31,7 +30,6 @@ describe('User tests', () => {
   });
 
   beforeEach(async () => {
-    console.log('beforeEach User');
     // insertamos un usuario
     post = await insertItem();
     token = await auth();
@@ -48,12 +46,10 @@ describe('User tests', () => {
   };
 
   afterEach(async () => {
-    console.log('afterEach User');
     await dropAllCollections();
   });
 
   afterAll(async () => {
-    console.log('afterAll User');
     await mongoose.connection.db.dropDatabase(() => {
       mongoose.connection.close();
     });
