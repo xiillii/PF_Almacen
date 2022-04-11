@@ -55,7 +55,7 @@ API para entradas y salidas de productos, de un almacén
 
 ![Casos de Uso de Usuarios](https://user-images.githubusercontent.com/24198508/160295235-67b0bf0b-901e-424e-9e30-2694103d4b89.png)
 
-### RF01. Listado de productos
+### RF01. Listado de usuarios
 
 - Se debe construir el modelo de la base de datos para la entidad.
 - Se debe construir un método del API para listar el registro de usuarios
