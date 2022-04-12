@@ -254,7 +254,7 @@ API para entradas y salidas de productos, de un almacén
 - El método debe tener la opción de poder mostrar solo los productos inactivos
 - El método debe tener la opción de listar todos los productos activos e inactivos
 - El método nunca debe listar productos borrados
-- Cada producto debe tener información de su categoría, sin importar si la categoría este inactiva
+- El método debe tener la opción de incluír la información de la categoría o solo la id, sin importar si la categoría este inactiva
 
 ### RF17. Registro de productos
 
