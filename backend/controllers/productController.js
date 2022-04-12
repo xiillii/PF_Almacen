@@ -18,6 +18,7 @@ const getProducts = asyncHandler(async (req, res) => {
   const totalRecords = await Product.countDocuments(request);
 
   const products = await Product.find(request)
+    .select('-isDeleted')
     .limit(limit)
     .skip((offset - 1) * limit)
     .exec();
