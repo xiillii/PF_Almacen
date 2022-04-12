@@ -11,6 +11,7 @@ const getCategories = asyncHandler(async (req, res) => {
   const totalRecords = await Category.countDocuments({ isDeleted: false });
 
   const categories = await Category.find({ isDeleted: false })
+    .select('-isDeleted')
     .limit(limit)
     .skip((offset - 1) * limit)
     .exec();
