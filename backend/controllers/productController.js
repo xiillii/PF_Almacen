@@ -23,9 +23,8 @@ const getProducts = asyncHandler(async (req, res) => {
   const totalRecords = await Product.countDocuments(request);
 
   let products = [];
-  console.log(withCategory);
+
   if (withCategory === '1') {
-    console.log('1');
     products = await Product.find(request)
       .select('-isDeleted')
       .populate('category')
@@ -33,7 +32,6 @@ const getProducts = asyncHandler(async (req, res) => {
       .skip((offset - 1) * limit)
       .exec();
   } else {
-    console.log('0');
     products = await Product.find(request)
       .select('-isDeleted')
       .limit(limit)
@@ -117,4 +115,149 @@ const registerProduct = asyncHandler(async (req, res) => {
   }
 });
 
-export { getProducts, registerProduct };
+// @desc    Modifica un producto
+// @route   PUT /api/products/:id
+// @access  private
+const updateProduct = asyncHandler(async (req, res) => {
+  const id = req.params.id;
+  const {
+    code,
+    name,
+    description,
+    image,
+    cost,
+    price,
+    brand,
+    rating,
+    numReviews,
+    isActive,
+    category,
+  } = req.body;
+
+  // Verificamos si la categoría existe
+  const categoryExists = await Category.findOne({
+    _id: category,
+    isDeleted: false,
+  });
+  if (!categoryExists) {
+    res.status(400);
+    throw new Error('Category not found');
+  }
+
+  // verificamos que no exista el código entre los activos
+  const productExists = await Product.findOne({
+    _id: id,
+    isDeleted: false,
+  });
+  if (!productExists) {
+    res.status(400);
+    throw new Error('Product not found');
+  }
+
+  productExists.code = code;
+  productExists.name = name;
+  productExists.description = description;
+  productExists.image = image;
+  productExists.cost = cost;
+  productExists.price = price;
+  productExists.brand = brand;
+  productExists.rating = rating;
+  productExists.numReviews = numReviews;
+  productExists.isActive = isActive;
+  productExists.category = category;
+  productExists.user = req.user;
+
+  const updatedProduct = await productExists.save();
+
+  if (updateProduct) {
+    res.json({
+      _id: updatedProduct._id,
+      code: updatedProduct.code,
+      name: updatedProduct.name,
+      description: updatedProduct.description,
+      image: updatedProduct.image,
+      cost: updatedProduct.cost,
+      price: updatedProduct.price,
+      brand: updatedProduct.brand,
+      rating: updatedProduct.rating,
+      numReviews: updatedProduct.numReviews,
+      isActive: updatedProduct.isActive,
+      category: updatedProduct.category,
+    });
+  } else {
+    throw new Error('Cannot update the product');
+  }
+});
+
+// @desc    Modifica un producto con PATCH
+// @route   PATCH /api/products/:id
+// @access  private
+const patchProduct = asyncHandler(async (req, res) => {
+  const id = req.params.id;
+  const {
+    code,
+    name,
+    description,
+    image,
+    cost,
+    price,
+    brand,
+    rating,
+    numReviews,
+    isActive,
+    category,
+  } = req.body;
+
+  if (category) {
+    // Verificamos si la categoría existe
+    const categoryExists = await Category.findOne({
+      _id: category,
+      isDeleted: false,
+    });
+    if (!categoryExists) {
+      res.status(400);
+      throw new Error('Category not found');
+    }
+  }
+
+  // verificamos que no exista el código entre los activos
+  const productExists = await Product.findOne({
+    _id: id,
+    isDeleted: false,
+  });
+  if (!productExists) {
+    res.status(400);
+    throw new Error('Product not found');
+  }
+
+  console.log('here');
+  const updatedProduct = await Product.findOneAndUpdate(
+    {
+      _id: id,
+      isDeleted: false,
+    },
+    req.body,
+    { new: true }
+  );
+  if (updatedProduct) {
+    res.json({
+      _id: updatedProduct._id,
+      code: updatedProduct.code,
+      name: updatedProduct.name,
+      description: updatedProduct.description,
+      image: updatedProduct.image,
+      cost: updatedProduct.cost,
+      price: updatedProduct.price,
+      brand: updatedProduct.brand,
+      rating: updatedProduct.rating,
+      numReviews: updatedProduct.numReviews,
+      isActive: updatedProduct.isActive,
+      category: updatedProduct.category,
+    });
+  } else {
+    res.status(400);
+    throw new Error('Product not found or error updating');
+  }
+});
+
+export { getProducts, registerProduct, updateProduct, patchProduct };
