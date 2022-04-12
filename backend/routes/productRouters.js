@@ -1,6 +1,7 @@
 import express from 'express';
 
 import {
+  deleteProduct,
   getProducts,
   patchProduct,
   registerProduct,
@@ -22,6 +23,7 @@ router
 router
   .route('/:id')
   .put(protect, productValidationRules(), productValidate, updateProduct)
-  .patch(protect, patchProduct);
+  .patch(protect, patchProduct)
+  .delete(protect, deleteProduct);
 
 export default router;

@@ -230,7 +230,6 @@ const patchProduct = asyncHandler(async (req, res) => {
     throw new Error('Product not found');
   }
 
-  console.log('here');
   const updatedProduct = await Product.findOneAndUpdate(
     {
       _id: id,
@@ -260,4 +259,38 @@ const patchProduct = asyncHandler(async (req, res) => {
   }
 });
 
-export { getProducts, registerProduct, updateProduct, patchProduct };
+// @desc    Borra lógicamdente un producto por id
+// @route   DELETE /api/products/:id
+// @access  private
+const deleteProduct = asyncHandler(async (req, res) => {
+  const id = req.params.id;
+
+  // verificamos que no exista el código entre los activos
+  const productExists = await Product.findOne({
+    _id: id,
+    isDeleted: false,
+  });
+  if (!productExists) {
+    res.status(400);
+    throw new Error('Product not found');
+  }
+
+  productExists.isDeleted = true;
+  productExists.code = `${productExists.code}_DELETED_${productExists._id}`;
+  productExists.user = req.user;
+
+  const updatedProduct = await productExists.save();
+  if (!updatedProduct) {
+    res.status(400);
+    throw new Error('Product not updated');
+  }
+  res.sendStatus(200);
+});
+
+export {
+  getProducts,
+  registerProduct,
+  updateProduct,
+  patchProduct,
+  deleteProduct,
+};
