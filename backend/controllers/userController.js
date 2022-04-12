@@ -133,7 +133,7 @@ const deleteUser = asyncHandler(async (req, res) => {
 
     const updatedUser = await user.save();
 
-    if (!updateUser) {
+    if (!updatedUser) {
       res.status(400);
       throw new Error('User not deleted');
     }
