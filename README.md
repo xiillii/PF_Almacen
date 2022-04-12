@@ -1,3 +1,33 @@
+# Uso
+
+1. Crear el archivo ".env" en la carpeta raíz con los valores:
+
+```javascript
+   NODE_ENV = development
+   PORT = 5000
+   MONGO_USE = theuser
+   MONGO_PASS = themongopass
+   MONGO_URI = mongodb+srv://theuser:themongopass@thecollection.zkbq1.mongodb.net/thedatabase?retryWrites=true&w=majority
+   MONGO_JEST_USERS_URI = mongodb+srv://theuser:themongopass@thecollection.zkbq1.mongodb.net/jestDB_U?retryWrites=true&w=majority
+   MONGO_JEST_CATEGORIES_URI = mongodb+srv://theuser:themongopass@thecollection.zkbq1.mongodb.net/jestDB_C?retryWrites=true&w=majority
+   PASSWORD_HASH_LENGTH = 10
+   JWT_SECRET = thejwtphrasesecret
+```
+
+2. Tipos de ejecución:
+   - Ejecuta el servidor backend
+   ```bash
+     npm run server
+   ```
+   - Ejecuta la importación de usuarios de prueba. Entre ellos el usuario administrativo. Limpia los datos existentes
+   ```bash
+     npm run data:import
+   ```
+   - Ejecuta la limpieza de la base de datos
+   ```bash
+     npm run data:destroy
+   ```
+
 # API Almacén
 
 API para entradas y salidas de productos, de un almacén
