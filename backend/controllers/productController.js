@@ -7,21 +7,39 @@ import Category from '../models/categoryModel.js';
 // @route   GET /api/products
 // @access  private
 const getProducts = asyncHandler(async (req, res) => {
-  const { offset = 1, limit = DEFAULT_LIMIT_VALUE, onlyActive = 1 } = req.query;
+  const {
+    offset = 1,
+    limit = DEFAULT_LIMIT_VALUE,
+    onlyActive = 1,
+    withCategory = 0,
+  } = req.query;
 
   let request;
-  if (onlyActive === 0) {
+  if (onlyActive === '0') {
     request = { isDeleted: false };
   } else {
     request = { isDeleted: false, isActive: true };
   }
   const totalRecords = await Product.countDocuments(request);
 
-  const products = await Product.find(request)
-    .select('-isDeleted')
-    .limit(limit)
-    .skip((offset - 1) * limit)
-    .exec();
+  let products = [];
+  console.log(withCategory);
+  if (withCategory === '1') {
+    console.log('1');
+    products = await Product.find(request)
+      .select('-isDeleted')
+      .populate('category')
+      .limit(limit)
+      .skip((offset - 1) * limit)
+      .exec();
+  } else {
+    console.log('0');
+    products = await Product.find(request)
+      .select('-isDeleted')
+      .limit(limit)
+      .skip((offset - 1) * limit)
+      .exec();
+  }
 
   res.setHeader('X-Total-Count', totalRecords);
   res.status(200).json(products);
