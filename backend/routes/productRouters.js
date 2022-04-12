@@ -1,6 +1,9 @@
 import express from 'express';
 
-import { getProducts } from '../controllers/productController.js';
+import {
+  getProducts,
+  registerProduct,
+} from '../controllers/productController.js';
 import { protect } from '../middleware/authMiddleware.js';
 import {
   productValidate,
@@ -9,6 +12,9 @@ import {
 
 const router = express.Router();
 
-router.route('/').get(protect, getProducts);
+router
+  .route('/')
+  .get(protect, getProducts)
+  .post(protect, productValidationRules(), productValidate, registerProduct);
 
 export default router;
