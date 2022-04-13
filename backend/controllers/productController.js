@@ -194,19 +194,7 @@ const updateProduct = asyncHandler(async (req, res) => {
 // @access  private
 const patchProduct = asyncHandler(async (req, res) => {
   const id = req.params.id;
-  const {
-    code,
-    name,
-    description,
-    image,
-    cost,
-    price,
-    brand,
-    rating,
-    numReviews,
-    isActive,
-    category,
-  } = req.body;
+  const { category } = req.body;
 
   if (category) {
     // Verificamos si la categoría existe
