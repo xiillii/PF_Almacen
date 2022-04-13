@@ -287,10 +287,43 @@ const deleteProduct = asyncHandler(async (req, res) => {
   res.sendStatus(200);
 });
 
+// @desc    obtiene un producto por id
+// @route   GET /api/products/:id
+// @access  private
+const getProduct = asyncHandler(async (req, res) => {
+  const id = req.params.id;
+
+  const product = await Product.findOne({ _id: id, isDeleted: false }).populate(
+    'category'
+  );
+
+  if (product) {
+    res.json({
+      _id: product._id,
+      code: product.code,
+      name: product.name,
+      description: product.description,
+      image: product.image,
+      cost: product.cost,
+      price: product.price,
+      brand: product.brand,
+      rating: product.rating,
+      numReviews: product.numReviews,
+      isActive: product.isActive,
+      category: product.category,
+      category: product.category,
+    });
+  } else {
+    res.status(404);
+    throw new Error('Product not found');
+  }
+});
+
 export {
   getProducts,
   registerProduct,
   updateProduct,
   patchProduct,
   deleteProduct,
+  getProduct,
 };

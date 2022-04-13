@@ -2,6 +2,7 @@ import express from 'express';
 
 import {
   deleteProduct,
+  getProduct,
   getProducts,
   patchProduct,
   registerProduct,
@@ -24,6 +25,7 @@ router
   .route('/:id')
   .put(protect, productValidationRules(), productValidate, updateProduct)
   .patch(protect, patchProduct)
-  .delete(protect, deleteProduct);
+  .delete(protect, deleteProduct)
+  .get(protect, getProduct);
 
 export default router;
