@@ -12,6 +12,7 @@ import { protect } from '../middleware/authMiddleware.js';
 import {
   productValidate,
   productValidationRules,
+  productValidationUpdateRules,
 } from '../middleware/productValidatorMiddleware.js';
 
 const router = express.Router();
@@ -23,7 +24,7 @@ router
 
 router
   .route('/:id')
-  .put(protect, productValidationRules(), productValidate, updateProduct)
+  .put(protect, productValidationUpdateRules(), productValidate, updateProduct)
   .patch(protect, patchProduct)
   .delete(protect, deleteProduct)
   .get(protect, getProduct);

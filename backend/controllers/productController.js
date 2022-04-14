@@ -263,6 +263,8 @@ const deleteProduct = asyncHandler(async (req, res) => {
     throw new Error('Product not found');
   }
 
+  //TODO: Verificar que el producto no tenga existencias en algun almacen
+
   productExists.isDeleted = true;
   productExists.code = `${productExists.code}_DELETED_${productExists._id}`;
   productExists.user = req.user;

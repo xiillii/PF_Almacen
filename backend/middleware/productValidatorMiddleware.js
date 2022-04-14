@@ -27,6 +27,38 @@ const productValidationRules = () => {
   ];
 };
 
+const productValidationUpdateRules = () => {
+  return [
+    body('code')
+      .trim()
+      .escape()
+      .exists({ checkFalsy: true })
+      .withMessage('Code must have more than 1 character'),
+    body('name')
+      .trim()
+      .escape()
+      .exists({ checkFalsy: true })
+      .withMessage('Name must have more than 1 character'),
+    body('brand')
+      .trim()
+      .escape()
+      .exists({ checkFalsy: true })
+      .withMessage('Brand must have more than 1 character'),
+    body('isActive')
+      .trim()
+      .escape()
+      .exists({ checkFalsy: true })
+      .withMessage('IsActive is mandatory'),
+    body('category')
+      .trim()
+      .escape()
+      .isMongoId()
+      .exists({ checkFalsy: true })
+      .withMessage('Category is mandatory'),
+    body('description').trim().escape(),
+  ];
+};
+
 const productValidate = (req, res, next) => {
   const errors = validationResult(req);
 
@@ -39,4 +71,8 @@ const productValidate = (req, res, next) => {
   return res.status(422).json({ errors: extractedErrors });
 };
 
-export { productValidate, productValidationRules };
+export {
+  productValidate,
+  productValidationRules,
+  productValidationUpdateRules,
+};
