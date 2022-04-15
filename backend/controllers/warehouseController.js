@@ -50,6 +50,7 @@ const registerWarehouse = asyncHandler(async (req, res) => {
   if (warehouse) {
     res.status(201).json({
       _id: warehouse._id,
+      code: warehouse.code,
       name: warehouse.name,
       description: warehouse.description,
       address: warehouse.address,
