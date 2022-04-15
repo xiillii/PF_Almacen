@@ -1,7 +1,6 @@
 import asyncHandler from 'express-async-handler';
 import Warehouse from '../models/warehouseModel.js';
 import { DEFAULT_LIMIT_VALUE } from '../constants/backendConstans.js';
-import Category from '../models/categoryModel.js';
 
 // @desc    Otiene el listado de todas los almacenes
 // @route   GET /api/warehouses
