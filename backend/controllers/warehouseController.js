@@ -1,6 +1,7 @@
 import asyncHandler from 'express-async-handler';
-import Warehouse from '../models/warehouse.js';
+import Warehouse from '../models/warehouseModel.js';
 import { DEFAULT_LIMIT_VALUE } from '../constants/backendConstans.js';
+import Category from '../models/categoryModel.js';
 
 // @desc    Otiene el listado de todas los almacenes
 // @route   GET /api/warehouses
@@ -20,4 +21,45 @@ const getWarehouses = asyncHandler(async (req, res) => {
   res.status(200).json(wharehouses);
 });
 
-export { getWarehouses };
+// @desc    Agrega un nuevo almacen
+// @route   POST /api/warehouses
+// @access  private
+const registerWarehouse = asyncHandler(async (req, res) => {
+  let { code, name, description, address, latitude, longitude } = req.body;
+
+  // verificamos que no exista el código del almacen entre los activos
+  const warehouseExists = await Warehouse.findOne({
+    code: code,
+    isDeleted: false,
+  });
+  if (warehouseExists) {
+    res.status(400);
+    throw new Error('Warehouse already exists');
+  }
+
+  const warehouse = await Warehouse.create({
+    code: code,
+    name: name,
+    description: description,
+    address: address,
+    latitude: latitude,
+    longitude: longitude,
+    user: req.user,
+  });
+
+  if (warehouse) {
+    res.status(201).json({
+      _id: warehouse._id,
+      name: warehouse.name,
+      description: warehouse.description,
+      address: warehouse.address,
+      latitude: warehouse.latitude,
+      longitude: warehouse.longitude,
+    });
+  } else {
+    res.status(400);
+    throw new Error('Invalid warehouse data');
+  }
+});
+
+export { getWarehouses, registerWarehouse };

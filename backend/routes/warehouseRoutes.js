@@ -1,6 +1,9 @@
 import express from 'express';
 
-import { getWarehouses } from '../controllers/warehouseController.js';
+import {
+  getWarehouses,
+  registerWarehouse,
+} from '../controllers/warehouseController.js';
 import { protect } from '../middleware/authMiddleware.js';
 import {
   warehouseValidate,
@@ -9,6 +12,14 @@ import {
 
 const router = express.Router();
 
-router.route('/').get(protect, getWarehouses);
+router
+  .route('/')
+  .get(protect, getWarehouses)
+  .post(
+    protect,
+    warehouseValidationRules(),
+    warehouseValidate,
+    registerWarehouse
+  );
 
 export default router;
