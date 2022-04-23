@@ -136,4 +136,37 @@ const deleteWarehouse = asyncHandler(async (req, res) => {
   res.sendStatus(200);
 });
 
-export { getWarehouses, registerWarehouse, updateWarehouse, deleteWarehouse };
+// @desc    Obtiene un almacén
+// @route   GET /api/warehouses/:id
+// @access  private
+const getWarehouse = asyncHandler(async (req, res) => {
+  const id = req.params.id;
+
+  // buscamos el almacén entre los activos
+  const wharehouse = await Warehouse.findOne({
+    _id: id,
+    isDeleted: false,
+  });
+
+  if (!wharehouse) {
+    res.status(400);
+    throw new Error('Warehouse not found');
+  }
+
+  res.json({
+    _id: wharehouse._id,
+    code: wharehouse.code,
+    name: wharehouse.name,
+    description: wharehouse.description,
+    address: wharehouse.address,
+    latitude: wharehouse.latitude,
+    longitude: wharehouse.longitude,
+  });
+});
+export {
+  getWarehouses,
+  registerWarehouse,
+  updateWarehouse,
+  deleteWarehouse,
+  getWarehouse,
+};

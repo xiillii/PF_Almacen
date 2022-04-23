@@ -2,6 +2,7 @@ import express from 'express';
 
 import {
   deleteWarehouse,
+  getWarehouse,
   getWarehouses,
   registerWarehouse,
   updateWarehouse,
@@ -27,6 +28,7 @@ router
 router
   .route('/:id')
   .put(protect, warehouseValidationRules(), warehouseValidate, updateWarehouse)
-  .delete(protect, deleteWarehouse);
+  .delete(protect, deleteWarehouse)
+  .get(protect, getWarehouse);
 
 export default router;
