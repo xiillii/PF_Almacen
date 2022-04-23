@@ -3,6 +3,7 @@ import express from 'express';
 import {
   getWarehouses,
   registerWarehouse,
+  updateWarehouse,
 } from '../controllers/warehouseController.js';
 import { protect } from '../middleware/authMiddleware.js';
 import {
@@ -21,5 +22,9 @@ router
     warehouseValidate,
     registerWarehouse
   );
+
+router
+  .route('/:id')
+  .put(protect, warehouseValidationRules(), warehouseValidate, updateWarehouse);
 
 export default router;

@@ -62,4 +62,46 @@ const registerWarehouse = asyncHandler(async (req, res) => {
   }
 });
 
-export { getWarehouses, registerWarehouse };
+// @desc    Modifica un almacen
+// @route   PUT /api/warehouses/:id
+// @access  private
+const updateWarehouse = asyncHandler(async (req, res) => {
+  const id = req.params.id;
+  const { code, name, description, address, latitude, longitude } = req.body;
+
+  // verificamos que no exista el código entre los activos
+  const warehouseExists = await Warehouse.findOne({
+    _id: id,
+    isDeleted: false,
+  });
+  if (!warehouseExists) {
+    res.status(400);
+    throw new Error('Warehouse not found');
+  }
+
+  warehouseExists.code = code;
+  warehouseExists.name = name;
+  warehouseExists.description = description;
+  warehouseExists.address = address;
+  warehouseExists.latitude = latitude;
+  warehouseExists.longitude = longitude;
+  warehouseExists.user = req.user;
+
+  const updateWarehouse = await warehouseExists.save();
+
+  if (updateWarehouse) {
+    res.json({
+      _id: updateWarehouse._id,
+      code: updateWarehouse.code,
+      name: updateWarehouse.name,
+      description: updateWarehouse.description,
+      address: updateWarehouse.address,
+      latitude: updateWarehouse.latitude,
+      longitude: updateWarehouse.longitude,
+    });
+  } else {
+    throw new Error('Cannot update the warehouse');
+  }
+});
+
+export { getWarehouses, registerWarehouse, updateWarehouse };
