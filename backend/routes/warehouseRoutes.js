@@ -1,6 +1,7 @@
 import express from 'express';
 
 import {
+  deleteWarehouse,
   getWarehouses,
   registerWarehouse,
   updateWarehouse,
@@ -25,6 +26,7 @@ router
 
 router
   .route('/:id')
-  .put(protect, warehouseValidationRules(), warehouseValidate, updateWarehouse);
+  .put(protect, warehouseValidationRules(), warehouseValidate, updateWarehouse)
+  .delete(protect, deleteWarehouse);
 
 export default router;

@@ -104,4 +104,36 @@ const updateWarehouse = asyncHandler(async (req, res) => {
   }
 });
 
-export { getWarehouses, registerWarehouse, updateWarehouse };
+// @desc    Borra un almacén
+// @route   DELETE /api/warehouses/:id
+// @access  private
+const deleteWarehouse = asyncHandler(async (req, res) => {
+  const id = req.params.id;
+
+  //TODO: tenemos que verificar que no se puede borrar un almacén que contenga productos
+  // asignados
+
+  // Verificamos que exista entre los activos
+  const warehouse = await Warehouse.findOne({
+    _id: id,
+    isDeleted: false,
+  });
+  if (!warehouse) {
+    res.status(400);
+    throw new Error('Warehouse not found');
+  }
+
+  warehouse.code = `${warehouse.code}_DELETED_${warehouse._id}`;
+  warehouse.user = req.user;
+  warehouse.isDeleted = true;
+
+  const updateWarehouse = await warehouse.save();
+
+  if (!updateWarehouse) {
+    res.status(400);
+    throw new Error('Warehouse not deleted');
+  }
+  res.sendStatus(200);
+});
+
+export { getWarehouses, registerWarehouse, updateWarehouse, deleteWarehouse };
