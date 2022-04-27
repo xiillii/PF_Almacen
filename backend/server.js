@@ -7,6 +7,7 @@ import userRoutes from './routes/userRoutes.js';
 import categoryRoutes from './routes/categoryRoutes.js';
 import productRouters from './routes/productRouters.js';
 import warehouseRoutes from './routes/warehouseRoutes.js';
+import movementTypeRoutes from './routes/movementTypeRoutes.js';
 import { errorHandler, notFound } from './middleware/errorMiddleware.js';
 
 const app = express();
@@ -21,6 +22,7 @@ app.use('/api/users', userRoutes);
 app.use('/api/categories', categoryRoutes);
 app.use('/api/products', productRouters);
 app.use('/api/warehouses', warehouseRoutes);
+app.use('/api/movementtypes', movementTypeRoutes);
 
 app.use(notFound);
 app.use(errorHandler);
