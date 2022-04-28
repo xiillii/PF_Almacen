@@ -117,9 +117,31 @@ const deleteMovementType = asyncHandler(async (req, res) => {
   res.sendStatus(200);
 });
 
+// @desc    Obtiene un tipo de movimiento
+// @route   GET /api/movementtypes/:id
+// @access  private
+const getMovementtype = asyncHandler(async (req, res) => {
+  const id = req.params.id;
+
+  const item = await MovementType.findOne({ _id: id, isDeleted: false });
+
+  if (!item) {
+    res.status(400);
+    throw new Error('Movement Type not found');
+  }
+
+  res.json({
+    _id: item._id,
+    code: item.code,
+    name: item.name,
+    operation: item.operation,
+  });
+});
+
 export {
   getMovementTypes,
   registerMovementType,
   updateMovementType,
   deleteMovementType,
+  getMovementtype,
 };

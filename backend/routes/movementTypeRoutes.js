@@ -2,6 +2,7 @@ import express from 'express';
 
 import {
   deleteMovementType,
+  getMovementtype,
   getMovementTypes,
   registerMovementType,
   updateMovementType,
@@ -32,6 +33,7 @@ router
     movementTypeValidate,
     updateMovementType
   )
-  .delete(protect, deleteMovementType);
+  .delete(protect, deleteMovementType)
+  .get(protect, getMovementtype);
 
 export default router;
