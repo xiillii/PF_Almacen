@@ -91,4 +91,35 @@ const updateMovementType = asyncHandler(async (req, res) => {
   });
 });
 
-export { getMovementTypes, registerMovementType, updateMovementType };
+// @desc    Borra un tipo de movimiento
+// @route   DELETE /api/movementtypes/:id
+// @access  private
+const deleteMovementType = asyncHandler(async (req, res) => {
+  const id = req.params.id;
+
+  const exists = await MovementType.findOne({ _id: id, isDeleted: false });
+
+  if (!exists) {
+    res.status(400);
+    throw new Error('Movement Type not found');
+  }
+
+  exists.code = `${exists.code}_DELETED_${exists._id}`;
+  exists.user = req.user;
+  exists.isDeleted = true;
+
+  const updatedItem = await exists.save();
+
+  if (!updatedItem) {
+    res.status(400);
+    throw new Error('Movement Type not deleted');
+  }
+  res.sendStatus(200);
+});
+
+export {
+  getMovementTypes,
+  registerMovementType,
+  updateMovementType,
+  deleteMovementType,
+};

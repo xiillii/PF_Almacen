@@ -1,6 +1,7 @@
 import express from 'express';
 
 import {
+  deleteMovementType,
   getMovementTypes,
   registerMovementType,
   updateMovementType,
@@ -30,6 +31,7 @@ router
     movementTypeValidationRules(),
     movementTypeValidate,
     updateMovementType
-  );
+  )
+  .delete(protect, deleteMovementType);
 
 export default router;
