@@ -1,5 +1,6 @@
 import asyncHandler from 'express-async-handler';
 import MovementType from '../models/movementTypeModel.js';
+import Kardex from '../models/kardexModel.js';
 import { DEFAULT_LIMIT_VALUE } from '../constants/backendConstans.js';
 
 // @desc    Otiene el listado de todos los tipos de movimientos
@@ -102,6 +103,14 @@ const deleteMovementType = asyncHandler(async (req, res) => {
   if (!exists) {
     res.status(400);
     throw new Error('Movement Type not found');
+  }
+
+  // Se debe poder eliminar solo si no hay ningun movimiento en el Kardex
+  const existsWithRelated = await Kardex.findOne({ movementType: id });
+
+  if (existsWithRelated) {
+    res.status(400);
+    throw new Error('The movement type have records in the kardex');
   }
 
   exists.code = `${exists.code}_DELETED_${exists._id}`;
