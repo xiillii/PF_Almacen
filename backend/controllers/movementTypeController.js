@@ -56,4 +56,38 @@ const registerMovementType = asyncHandler(async (req, res) => {
   }
 });
 
-export { getMovementTypes, registerMovementType };
+// @desc    Modifica un tipo de movimiento
+// @route   POST /api/movementtypes/:id
+// @access  private
+const updateMovementType = asyncHandler(async (req, res) => {
+  const id = req.params.id;
+  const { code, name, operation } = req.body;
+
+  const exists = await MovementType.findOne({ _id: id, isDeleted: false });
+
+  if (!exists) {
+    res.status(400);
+    throw new Error('Movement Type not found');
+  }
+
+  let auxOperation = operation;
+  if (operation === 0) {
+    auxOperation = 1;
+  }
+
+  exists.code = code;
+  exists.name = name;
+  exists.operation = auxOperation;
+  exists.user = req.user;
+
+  const updateItem = await exists.save();
+
+  res.json({
+    _id: updateItem._id,
+    code: updateItem.code,
+    name: updateItem.name,
+    operation: updateItem.operation,
+  });
+});
+
+export { getMovementTypes, registerMovementType, updateMovementType };
