@@ -48,6 +48,7 @@ const registerMovementType = asyncHandler(async (req, res) => {
     res.status(201).json({
       _id: item._id,
       code: item.code,
+      name: item.name,
       operation: item.operation,
     });
   } else {
