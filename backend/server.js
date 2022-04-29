@@ -8,6 +8,7 @@ import categoryRoutes from './routes/categoryRoutes.js';
 import productRouters from './routes/productRouters.js';
 import warehouseRoutes from './routes/warehouseRoutes.js';
 import movementTypeRoutes from './routes/movementTypeRoutes.js';
+import kardexRoutes from './routes/kardexRoutes.js';
 import { errorHandler, notFound } from './middleware/errorMiddleware.js';
 
 const app = express();
@@ -23,6 +24,7 @@ app.use('/api/categories', categoryRoutes);
 app.use('/api/products', productRouters);
 app.use('/api/warehouses', warehouseRoutes);
 app.use('/api/movementtypes', movementTypeRoutes);
+app.use('/api/kardex', kardexRoutes);
 
 app.use(notFound);
 app.use(errorHandler);

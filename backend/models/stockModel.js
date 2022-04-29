@@ -2,9 +2,26 @@ import mongoose from 'mongoose';
 
 const stockSchema = mongoose.Schema(
   {
-    wharehouse,
-    product,
-    quantity,
+    wharehouse: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+      ref: 'Wharehouse',
+    },
+    product: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+      ref: 'Product',
+    },
+    quantity: {
+      type: mongoose.Decimal128,
+      default: 0,
+      required: true,
+    },
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: false,
+      ref: 'User',
+    },
   },
   { timestamps: true }
 );
