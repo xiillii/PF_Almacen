@@ -1,7 +1,9 @@
 import asyncHandler from 'express-async-handler';
 import Product from '../models/productModel.js';
+import Stock from '../models/stockModel.js';
 import { DEFAULT_LIMIT_VALUE } from '../constants/backendConstans.js';
 import Category from '../models/categoryModel.js';
+import mongoose from 'mongoose';
 
 // @desc    Otiene el listado de productos, con la opción de mostrar todos o solo los activos
 // @route   GET /api/products
@@ -263,7 +265,33 @@ const deleteProduct = asyncHandler(async (req, res) => {
     throw new Error('Product not found');
   }
 
-  //TODO: Verificar que el producto no tenga existencias en algun almacen
+  // Verificar que el producto no tenga existencias en algun almacen
+  const auxStock = await Stock.aggregate([
+    {
+      $match: {
+        product: new mongoose.Types.ObjectId(`${id}`),
+        isEmpty: false,
+      },
+    },
+    {
+      $group: {
+        _id: null,
+        total: {
+          $sum: '$quantity',
+        },
+      },
+    },
+  ]);
+
+  let theTotal = 0.0;
+  if (auxStock && auxStock.length > 0) {
+    theTotal = auxStock[0].total;
+  }
+
+  if (theTotal > 0.0) {
+    res.status(400);
+    throw new Error('Cannot delete the Product. It has stock');
+  }
 
   productExists.isDeleted = true;
   productExists.code = `${productExists.code}_DELETED_${productExists._id}`;
