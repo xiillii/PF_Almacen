@@ -3,6 +3,12 @@ import dotenv from 'dotenv';
 import User from './models/userModel.js';
 import users from './data/users.js';
 import connectDb from './config/db.js';
+import Kardex from './models/kardexModel.js';
+import MovementType from './models/movementTypeModel.js';
+import Product from './models/productModel.js';
+import Stock from './models/stockModel.js';
+import Warehouse from './models/warehouseModel.js';
+import Category from './models/categoryModel.js';
 
 dotenv.config();
 
@@ -29,6 +35,12 @@ const destroyData = async () => {
   try {
     // Limpiar las tablas
     await User.deleteMany();
+    await Kardex.deleteMany();
+    await Stock.deleteMany();
+    await MovementType.deleteMany();
+    await Warehouse.deleteMany();
+    await Product.deleteMany();
+    await Category.deleteMany();
 
     console.log('Datos eliminados'.green.inverse);
     process.exit();

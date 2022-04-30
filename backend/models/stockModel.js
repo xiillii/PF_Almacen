@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 
 const stockSchema = mongoose.Schema(
   {
-    wharehouse: {
+    warehouse: {
       type: mongoose.Schema.Types.ObjectId,
       required: true,
       ref: 'Wharehouse',
@@ -17,6 +17,16 @@ const stockSchema = mongoose.Schema(
       default: 0,
       required: true,
     },
+    cost: {
+      type: mongoose.Decimal128,
+      default: 0,
+      required: true,
+    },
+    isEmpty: {
+      type: Boolean,
+      default: true,
+      required: true,
+    },
     user: {
       type: mongoose.Schema.Types.ObjectId,
       required: false,
@@ -26,7 +36,7 @@ const stockSchema = mongoose.Schema(
   { timestamps: true }
 );
 
-stockSchema.index({ wharehouse: 1, product: 1 }, { unique: true });
+stockSchema.index({ wharehouse: 1, product: 1 }, { unique: false });
 
 const Stock = mongoose.model('Stock', stockSchema);
 
