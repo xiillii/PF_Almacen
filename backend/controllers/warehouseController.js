@@ -1,6 +1,7 @@
 import asyncHandler from 'express-async-handler';
 import Warehouse from '../models/warehouseModel.js';
 import { DEFAULT_LIMIT_VALUE } from '../constants/backendConstans.js';
+import Stock from '../models/stockModel.js';
 
 // @desc    Otiene el listado de todas los almacenes
 // @route   GET /api/warehouses
@@ -110,8 +111,16 @@ const updateWarehouse = asyncHandler(async (req, res) => {
 const deleteWarehouse = asyncHandler(async (req, res) => {
   const id = req.params.id;
 
-  //TODO: tenemos que verificar que no se puede borrar un almacén que contenga productos
-  // asignados
+  // se puede borrar un almacén solo si no tiene existencias de cualqiuer producto
+  const warehouseWithStock = await Stock.findOne({
+    warehouse: id,
+    isEmpty: false,
+  });
+  console.log(warehouseWithStock);
+  if (warehouseWithStock) {
+    res.status(400);
+    throw new Error('Warehouse not deleted. It have products with stock');
+  }
 
   // Verificamos que exista entre los activos
   const warehouse = await Warehouse.findOne({
