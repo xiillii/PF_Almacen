@@ -6,7 +6,8 @@ import MovementType from '../models/movementTypeModel.js';
 import Stock from '../models/stockModel.js';
 import mongoose from 'mongoose';
 
-// @desc    Inserta un movimiento al kardex
+// @desc    Inserta un movimiento al kardex. Con este metodo
+//         se cierre RF33, RF29, RF28
 // @route   GET /api/kardex
 // @access  private
 const registerMovement = await asyncHandler(async (req, res) => {
